@@ -5,9 +5,13 @@ import com.sanket.blogapp.util.ResponseObject;
 
 public interface CategoryService {
 
-     ResponseObject createCategory(CategoryDto categoryDto);
-     ResponseObject updateCategory(CategoryDto categoryDto, Long id);
+    ResponseObject createCategory(CategoryDto categoryDto);
+
+    ResponseObject updateCategory(CategoryDto categoryDto, Long id);
+
     ResponseObject deleteCategory(Long id);
-     ResponseObject getCategory(Long id);
-     ResponseObject getAllCategory();
+
+    ResponseObject getCategory(Long id);
+
+    ResponseObject getAllCategory();
 }

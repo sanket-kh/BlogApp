@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 
 public class CustomUserDetailsService implements UserDetailsService {
     UserRepo userRepo;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (userRepo.findByEmail(username).isPresent()) {
             return userRepo.findByEmail(username).get();
         } else {
-            throw new UsernameNotFoundException("user doesnt exist with email: "+username);
+            throw new UsernameNotFoundException("user doesnt exist with email: " + username);
         }
 
 

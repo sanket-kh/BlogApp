@@ -33,66 +33,66 @@ public class CommentServiceImpl implements CommentService {
                 comment.setPost(this.postRepo.findById(postId).get());
                 comment = this.commentRepo.save(comment);
                 commentDto = this.modelMapper.map(comment, CommentDto.class);
-                return Util.resourceCreated(commentDto,"Comment");
-            }catch (Exception e){
+                return Util.resourceCreated(commentDto, "Comment");
+            } catch (Exception e) {
                 return Util.resourceNotCreated(null, "Comment");
             }
         } else {
-            return Util.resourceNotCreated(null,"Comment");
+            return Util.resourceNotCreated(null, "Comment");
         }
     }
 
     @Override
     public ResponseObject updateComment(CommentDto commentDto, Long userId, Long postId, Long id) {
-        if(this.commentRepo.findById(id).isPresent()
+        if (this.commentRepo.findById(id).isPresent()
                 && this.userRepo.findById(userId).isPresent()
                 && this.postRepo.findById(postId).isPresent()
-        ){
-            Comment comment =  this.commentRepo.findById(id).get();
+        ) {
+            Comment comment = this.commentRepo.findById(id).get();
             comment.setComment(commentDto.getComment());
             comment = this.commentRepo.save(comment);
             commentDto = this.modelMapper.map(comment, CommentDto.class);
-            return Util.resourceUpdated(commentDto, "Comment",id);
-        }else {
+            return Util.resourceUpdated(commentDto, "Comment", id);
+        } else {
             return Util.resourceNotUpdated(null, "Comment", id);
         }
     }
 
     @Override
     public ResponseObject deleteComment(Long userId, Long postId, Long id) {
-        if(this.commentRepo.findById(id).isPresent()
+        if (this.commentRepo.findById(id).isPresent()
                 && this.userRepo.findById(userId).isPresent()
-                && this.postRepo.findById(postId).isPresent() ){
-            return Util.resourceDeleted("Comment",id);
-        }else {
+                && this.postRepo.findById(postId).isPresent()) {
+            return Util.resourceDeleted("Comment", id);
+        } else {
             return Util.resourceNotDeleted("Comment");
         }
     }
 
     @Override
     public ResponseObject getCommentById(Long id) {
-        if (this.commentRepo.findById(id).isPresent()){
-            return Util.resourceFound(this.commentRepo.findById(id).get(),"Comment");
-        }else {
+        if (this.commentRepo.findById(id).isPresent()) {
+            return Util.resourceFound(this.commentRepo.findById(id).get(), "Comment");
+        } else {
             return Util.resourceNotFound("Comment");
         }
     }
 
     @Override
     public ResponseObject getCommentByUser(Long userId) {
-        if( this.userRepo.findById(userId).isPresent()
+        if (this.userRepo.findById(userId).isPresent()
                 && !this.commentRepo.findCommentsByUser(this.userRepo.findById(userId).get()).isEmpty()
 
-        ){
+        ) {
             List<Comment> comments = this.commentRepo.findCommentsByUser(this.userRepo.findById(userId).get());
             List<CommentDto> commentDtos = new ArrayList<>();
-            for (Comment comment:comments
-                 ) {
+            for (Comment comment : comments
+            ) {
                 CommentDto commentDto = this.modelMapper.map(comment, CommentDto.class);
                 commentDtos.add(commentDto);
             }
             return Util.resourceFound(commentDtos, "Comment");
-        }else {
+        } else {
             return Util.resourceNotFound("Comments");
         }
     }
@@ -100,19 +100,20 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseObject getCommentByPost(Long postId) {
 
-        if( this.postRepo.findById(postId).isPresent()
+        if (this.postRepo.findById(postId).isPresent()
                 && !this.commentRepo.findCommentsByPost(this.postRepo.findById(postId).get()).isEmpty()
 
-        ){
+        ) {
             List<Comment> comments = this.commentRepo.findCommentsByPost(this.postRepo.findById(postId).get());
             List<CommentDto> commentDtos = new ArrayList<>();
-            for (Comment comment:comments
+            for (Comment comment : comments
             ) {
                 CommentDto commentDto = this.modelMapper.map(comment, CommentDto.class);
                 commentDtos.add(commentDto);
             }
             return Util.resourceFound(commentDtos, "Comment");
-        }else {
+        } else {
             return Util.resourceNotFound("Comments");
-        }    }
+        }
+    }
 }

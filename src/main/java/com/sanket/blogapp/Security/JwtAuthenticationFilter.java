@@ -22,51 +22,52 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     private JwtTokenHelper jwtTokenHelper;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //get token
 
-        String requestToken=request.getHeader("Authorization");
+        String requestToken = request.getHeader("Authorization");
         System.out.println(requestToken);
         //request token starts like "Bearer 899013-320"
 
-        String userName=null;
-        String token=null;
+        String userName = null;
+        String token = null;
 
-        if (requestToken!=null && requestToken.startsWith("Bearer")){
-            token= requestToken.substring(7);
+        if (requestToken != null && requestToken.startsWith("Bearer")) {
+            token = requestToken.substring(7);
             try {
-                userName=jwtTokenHelper.extractUsername(token);
+                userName = jwtTokenHelper.extractUsername(token);
             } catch (IllegalArgumentException e) {
                 System.out.println("unable to get JWT token");
-            }catch (ExpiredJwtException e){
+            } catch (ExpiredJwtException e) {
                 System.out.println("expired");
-            }catch (MalformedJwtException e){
+            } catch (MalformedJwtException e) {
                 System.out.println("invalid JWT token");
             }
-        }else {
+        } else {
             System.out.println("JWT token doesnt begin with Bearer");
         }
 
 
         //Validate Token
-        if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null ){
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
-            if(this.jwtTokenHelper.validateToken(token,userDetails)){
+            if (this.jwtTokenHelper.validateToken(token, userDetails)) {
                 //set authentication
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }else {
+            } else {
                 System.out.println("Invalid JWT token");
             }
-        }else {
+        } else {
             System.out.println("Username is null or context is not null");
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
 
     }
 }

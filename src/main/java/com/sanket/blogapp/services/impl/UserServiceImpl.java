@@ -22,17 +22,15 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
 
-
-
     @Override
     public ResponseObject createUser(UserDto userDto) {
 
 
         try {
-            User savedUser= this.userRepo.save(this.dtoToUser(userDto));
-            return Util.resourceCreated(userDto,"User");
+            User savedUser = this.userRepo.save(this.dtoToUser(userDto));
+            return Util.resourceCreated(userDto, "User");
         } catch (Exception e) {
-           return Util.resourceNotCreated(userDto, "User");
+            return Util.resourceNotCreated(userDto, "User");
         }
 
 
@@ -43,18 +41,18 @@ public class UserServiceImpl implements UserService {
         User updatedUser = new User();
 
         if (this.userRepo.findById(userId).isPresent()) {
-            User user =  this.userRepo.findById(userId).get();
+            User user = this.userRepo.findById(userId).get();
             userDto.setId(user.getId());
             user.setName(userDto.getName());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());
             user.setAbout(userDto.getAbout());
 
-             updatedUser =this.userRepo.save(user);
+            updatedUser = this.userRepo.save(user);
 
-            return Util.resourceUpdated(updatedUser,"User", userId);
+            return Util.resourceUpdated(updatedUser, "User", userId);
         } else {
-            return Util.resourceNotUpdated(updatedUser, "User",userId);
+            return Util.resourceNotUpdated(updatedUser, "User", userId);
         }
 
 
@@ -63,13 +61,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseObject getUserById(Long userId) {
 
-        if( this.userRepo.findById(userId).isPresent() ){
-        User user = this.userRepo.findById(userId).get();
-            UserDto  userDto = userToDto(user);
-        return Util.resourceFound(userDto,"User");
-        }else {
+        if (this.userRepo.findById(userId).isPresent()) {
+            User user = this.userRepo.findById(userId).get();
+            UserDto userDto = userToDto(user);
+            return Util.resourceFound(userDto, "User");
+        } else {
 
-        return Util.resourceNotFound("User");
+            return Util.resourceNotFound("User");
         }
 
     }
@@ -78,11 +76,11 @@ public class UserServiceImpl implements UserService {
     public ResponseObject getAllUsers() {
 
 
-        if (this.userRepo.findAll().size()>0) {
+        if (this.userRepo.findAll().size() > 0) {
             List<User> users = this.userRepo.findAll();
             List<UserDto> userDtos = new ArrayList<>();
-            for (User user: users
-                 ) {
+            for (User user : users
+            ) {
                 UserDto userDto = this.modelMapper.map(user, UserDto.class);
                 userDtos.add(userDto);
             }
@@ -98,15 +96,15 @@ public class UserServiceImpl implements UserService {
 
         try {
             this.userRepo.deleteById(userId);
-          return Util.resourceDeleted("User", userId);
+            return Util.resourceDeleted("User", userId);
 
         } catch (Exception e) {
-           return Util.resourceNotDeleted("User");
+            return Util.resourceNotDeleted("User");
         }
 
     }
 
-    private User dtoToUser(UserDto userDto){
+    private User dtoToUser(UserDto userDto) {
 //        User user= new User();
 //        user.setId(userDto.getId()) ;
 //        user.setName(userDto.getName());
@@ -117,7 +115,7 @@ public class UserServiceImpl implements UserService {
         return this.modelMapper.map(userDto, User.class);
     }
 
-    private UserDto userToDto(User user){
+    private UserDto userToDto(User user) {
 //        UserDto userDto= new UserDto();
 //        userDto.setName(user.getName());
 //        userDto.setId(user.getId());

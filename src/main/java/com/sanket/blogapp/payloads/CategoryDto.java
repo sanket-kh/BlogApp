@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 
 
-
 @NoArgsConstructor
 @Getter
 @Setter

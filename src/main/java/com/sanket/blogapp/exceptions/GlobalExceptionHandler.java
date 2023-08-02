@@ -16,25 +16,23 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     //  the type of exception whenever thrown, this method handles the exception and sends the response
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String , String >> beanValidationExceptionHandler(MethodArgumentNotValidException ex){
+    public ResponseEntity<Map<String, String>> beanValidationExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> map = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error)->{
-            String fieldName = ((FieldError)error).getField();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             map.put(fieldName, message);
         });
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
 
 
-
     }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> BadCredentialsExceptionHandler(BadCredentialsException ex){
-        String message= ex.getMessage();
+    public ResponseEntity<String> BadCredentialsExceptionHandler(BadCredentialsException ex) {
+        String message = ex.getMessage();
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 
     }
-
-
 
 }

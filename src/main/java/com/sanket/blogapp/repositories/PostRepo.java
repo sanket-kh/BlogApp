@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PostRepo extends JpaRepository<Post,Long> {
+public interface PostRepo extends JpaRepository<Post, Long> {
     List<Post> findByCategory(Category category);
 
     @Query()

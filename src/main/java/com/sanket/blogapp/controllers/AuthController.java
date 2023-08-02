@@ -24,18 +24,17 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login/")
-    public ResponseEntity<JwtAuthResponse> createToken(
-        @RequestBody JwtAuthRequest request) throws Exception {
-        this.authenticate(request.getUserName(),request.getPassword());
-        String token= jwtTokenHelper.generateToken(userDetailsService.loadUserByUsername(request.getUserName()));
-        JwtAuthResponse jwtAuthResponse= new JwtAuthResponse();
+    public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
+        this.authenticate(request.getUserName(), request.getPassword());
+        String token = jwtTokenHelper.generateToken(userDetailsService.loadUserByUsername(request.getUserName()));
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setToken(token);
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
 
     }
 
     private void authenticate(String userName, String password) throws Exception {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken= new UsernamePasswordAuthenticationToken(userName,password);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userName, password);
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         } catch (BadCredentialsException e) {

@@ -17,31 +17,33 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/")
-    public ResponseEntity<Object> createCategory(@Valid @RequestBody CategoryDto categoryDto){
+    public ResponseEntity<Object> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
         ResponseObject responseObject = this.categoryService.createCategory(categoryDto);
         return new ResponseEntity<>(responseObject, responseObject.getHttpStatus());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable("id") Long id){
+    public ResponseEntity<Object> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable("id") Long id) {
         ResponseObject responseObject = this.categoryService.updateCategory(categoryDto, id);
         return new ResponseEntity<>(responseObject, responseObject.getHttpStatus());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCategory(@PathVariable("id") Long id){
-       ResponseObject responseObject= this.categoryService.deleteCategory(id);
-        return new ResponseEntity<>(responseObject,responseObject.getHttpStatus());
+    public ResponseEntity<Object> deleteCategory(@PathVariable("id") Long id) {
+        ResponseObject responseObject = this.categoryService.deleteCategory(id);
+        return new ResponseEntity<>(responseObject, responseObject.getHttpStatus());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getCategoryById(@PathVariable("id") Long id){
+    public ResponseEntity<Object> getCategoryById(@PathVariable("id") Long id) {
         ResponseObject responseObject = this.categoryService.getCategory(id);
-        return new ResponseEntity<>(responseObject,responseObject.getHttpStatus());
+        return new ResponseEntity<>(responseObject, responseObject.getHttpStatus());
     }
+
     @GetMapping("/")
-    public ResponseEntity<ResponseObject> getAllCategories(){
+    public ResponseEntity<ResponseObject> getAllCategories() {
         ResponseObject responseObject = this.categoryService.getAllCategory();
         return new ResponseEntity<>(responseObject, responseObject.getHttpStatus());
     }
-    
+
 }

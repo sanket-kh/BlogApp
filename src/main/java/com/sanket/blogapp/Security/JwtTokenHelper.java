@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtTokenHelper{
+public class JwtTokenHelper {
     private static final String secret = "jwtTokenKey";
 
-public String extractUsername(String token) {
-    return extractClaim(token, Claims::getSubject);
-}
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
@@ -28,6 +28,7 @@ public String extractUsername(String token) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }

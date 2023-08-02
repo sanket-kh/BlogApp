@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="CATEGORY")
+@Entity(name = "CATEGORY")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +24,6 @@ public class Category {
     private String categoryDescription;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts=new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
 
 }

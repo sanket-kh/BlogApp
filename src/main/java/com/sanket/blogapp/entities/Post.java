@@ -37,7 +37,7 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> comment= new ArrayList<>();
+    private List<Comment> comment = new ArrayList<>();
 
 
 }
